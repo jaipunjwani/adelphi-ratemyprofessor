@@ -1,0 +1,17 @@
+{
+				"name": "Adelphi University RateMyProfessor",
+				"version": "1.0",
+				"description": "Gets information from ratemyprofessor and displays it next to a professor's name in CLASS.",
+				"background": {
+								"persistent": false,
+								"scripts": ["event.js"]
+				},
+				"permissions": ["*://*.ratemyprofessors.com/*", "*://class.adelphi.edu/*"],
+				"content_scripts": [
+				{
+								"matches": ["*://class.adelphi.edu/*"],
+								"js": ["content.js"]
+				}
+				]
+}
+
