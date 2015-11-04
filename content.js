@@ -17,7 +17,7 @@ function getNames(){
 function getURL(name) {
 				var last_name = name.replace(/,.*/, "");
 				chrome.runtime.sendMessage({
-								method: 'POST',
+								method: 'GET',
 								action: 'xhttp',
 								url: 'http://www.ratemyprofessors.com/search.jsp',
 								data : 'queryBy=teacherName&schoolName=adelphi+university&queryoption=HEADER&query=' + last_name
