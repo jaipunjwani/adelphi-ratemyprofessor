@@ -1,13 +1,13 @@
 var names = [];
 
 function getNames(){
-  // Loop through the Professors column to grab their names
-  // TODO: Find a better way to iterate over HTML columns
-  var tds = document.getElementsByTagName('td');
-  for (var i=5; i<tds.length; i+= 10) {
-    var name = tds[i].getElementsByTagName('a')[0].innerHTML;
-    names.push(name);
-  }
+    // Loop through the Professors column to grab their names
+    // TODO: Find a better way to iterate over HTML columns
+    var tds = document.getElementsByTagName('td');
+    for (var i=5; i<tds.length; i+= 10) {
+        var name = tds[i].getElementsByTagName('a')[0].innerHTML;
+        names.push(name);
+    }
 }
 
 /**
@@ -15,32 +15,32 @@ function getNames(){
  *  
  */
 function getURL(name) {
-  var last_name = name.replace(/,.*/, "");
-  chrome.runtime.sendMessage({
-    method: 'POST',
-    action: 'xhttp',
-    url: 'http://www.ratemyprofessors.com/search.jsp',
-    data : 'queryBy=teacherName&schoolName=adelphi+university&queryoption=HEADER&query=' + last_name + '&facetSearch=true'
-  }, function (response) {
+    var last_name = name.replace(/,.*/, "");
+    chrome.runtime.sendMessage({
+        method: 'POST',
+        action: 'xhttp',
+        url: 'http://www.ratemyprofessors.com/search.jsp',
+        data : 'queryBy=teacherName&schoolName=adelphi+university&queryoption=HEADER&query=' + last_name + '&facetSearch=true'
+    }, function (response) {
 
-    //console.log(response);
-    var lis = document.createElement( 'html' );
-    lis.innerHTML = response;
+        //console.log(response);
+        var lis = document.createElement( 'html' );
+        lis.innerHTML = response;
 
-    lis = lis.getElementsByClassName('listing PROFESSOR');
-    //console.log(lis);
+        lis = lis.getElementsByClassName('listing PROFESSOR');
+        //console.log(lis);
 
-    for( var i = 0; i < lis.length; i++){
-      var rmp_name = lis[i].getElementsByClassName('main')[0].innerText.toUpperCase();
-      //console.log(rmp_name);
-      //console.log(name);
-      //console.log(rmp_name.indexOf(name));
-      if( rmp_name.indexOf(name) > -1 ) {
-        console.log(lis[i].getElementsByTagName('a')[0].getAttribute('href'));
-      }
-    }
+        for( var i = 0; i < lis.length; i++){
+            var rmp_name = lis[i].getElementsByClassName('main')[0].innerText.toUpperCase();
+            //console.log(rmp_name);
+            //console.log(name);
+            //console.log(rmp_name.indexOf(name));
+            if( rmp_name.indexOf(name) > -1 ) {
+                return lis[i].getElementsByTagName('a')[0].getAttribute('href');
+            }
+        }
 
-  });
+    });
 }
 
 /*
@@ -53,16 +53,17 @@ function getRating(url, name) {
         url: 'http://www.ratemyprofessors.com',
         data: url
     }, function(response) {
-
+        var ratings = document.createElement( 'html' );
+        ratings.innerHTML = response;
+        ratings = ratings.getElementsByTagName('div');
+        //ratings = ratings.getElementsByClassName('rating');
+        console.log(ratings);
     });
-
-
-
-
-
+}
 
 getNames();
 console.log(names);
 
-for(name in names)
-  getURL(name);
+for( var i = 0; i < names.length; i++){
+    getRating(getURL(name), name);
+}
