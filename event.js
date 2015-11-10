@@ -1,10 +1,19 @@
 /**
+<<<<<<< HEAD
  *   Possible parameters for request:
  *    action: "xhttp" for a cross-origin HTTP request
  *    method: Default "GET"
  *    url   : required, but not validated
  *    data  : data to send in a POST request
  *  
+=======
+ * Possible parameters for request:
+ *  action: "xhttp" for a cross-origin HTTP request
+ *  method: Default "GET"
+ *  url   : required, but not validated
+ *  data  : data to send in a POST request
+ *
+>>>>>>> 75f3c7ef06061e3e1b003842ea6677c1aad39469
  *  The callback function is called upon completion of the request */
 chrome.runtime.onMessage.addListener(function(request, sender, callback) {
   if (request.action == "xhttp") {

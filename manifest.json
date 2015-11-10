@@ -9,10 +9,17 @@
   },
   "permissions": ["*://*.ratemyprofessors.com/*", "*://class.adelphi.edu/*"],
   "content_scripts": [
+<<<<<<< HEAD
     {
       "matches": ["*://class.adelphi.edu/*"],
       "js": ["jquery-2.1.4.js", "content.js"]
     }
+=======
+  {
+    "matches": ["*://class.adelphi.edu/*"],
+    "js": ["libs/jquery-2.1.4.js", "content.js"]
+  }
+>>>>>>> 75f3c7ef06061e3e1b003842ea6677c1aad39469
   ]
 }
 
