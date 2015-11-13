@@ -60,9 +60,8 @@ function getRating(professorUrl) {
 }
 
 getNames();
-console.log(names);
+//console.log(names);
 
-var url = "";
-getURL(names[5], function(urlResponse){
-    getRating(urlResponse);
+getURL(names[0], function(urlResponse){
+    getRating(urlResponse, names[0]);
 });
