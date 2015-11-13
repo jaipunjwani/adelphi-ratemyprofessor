@@ -14,15 +14,14 @@ function getNames(){
  *  Performs a search on ratemyprofessor to get the professor's URL
  *  
  */
-function getURL(name) {
+function getURL(name,callback) {
     var last_name = name.replace(/,.*/, "");
     chrome.runtime.sendMessage({
         method: 'POST',
         action: 'xhttp',
         url: 'http://www.ratemyprofessors.com/search.jsp',
         data : 'queryBy=teacherName&schoolName=adelphi+university&queryoption=HEADER&query=' + last_name + '&facetSearch=true'
-    }, function (response) {
-
+    }, function(response){
         //console.log(response);
         var lis = document.createElement( 'html' );
         lis.innerHTML = response;
@@ -35,9 +34,10 @@ function getURL(name) {
             //console.log("RMP NAME IS: " + rmp_name);
             //console.log("NAME PASSED TO FUNCTION WAS: " + name);
             //console.log("RESULT OF INDEX_OF WAS: " + rmp_name.indexOf(name));
-            if( rmp_name.indexOf(name) > -1 ) {
-                console.log( "URL IS: " + lis[i].getElementsByTagName('a')[0].getAttribute('href') );
-                return lis[i].getElementsByTagName('a')[0].getAttribute('href');
+            if( rmp_name.indexOf(name) > -1 && typeof callback === 'function') {
+                callback(lis[i].getElementsByTagName('a')[0].getAttribute('href'));
+            }else{
+                alert("there was an error loading the URL");
             }
         }
 
@@ -47,25 +47,22 @@ function getURL(name) {
 /*
  * Retrieve rating from a professor's RMP page
  */
-function getRating(url, name) {
+function getRating(professorUrl) {
     chrome.runtime.sendMessage({
         method: 'POST',
         action: 'xhttp',
         url: 'http://www.ratemyprofessors.com',
-        data: url
-    }, function(response) {
-        var rating = $(response).find('div.grade').first().text();
-        console.log(rating);
+        data: professorUrl
+    },function(response) {
+        console.log(professorUrl);
+        console.log(response); // response does not contain professor's information, it seems like a generic page
     });
 }
 
 getNames();
 console.log(names);
 
-
-var url = getURL(names[0]);
-
-console.log(url);
-
-
-getRating(url, names[0]);
+var url = "";
+getURL(names[5], function(urlResponse){
+    getRating(urlResponse);
+});
