@@ -32,10 +32,11 @@ function getURL(name) {
 
         for( var i = 0; i < lis.length; i++){
             var rmp_name = lis[i].getElementsByClassName('main')[0].innerText.toUpperCase();
-            //console.log(rmp_name);
-            //console.log(name);
-            //console.log(rmp_name.indexOf(name));
+            //console.log("RMP NAME IS: " + rmp_name);
+            //console.log("NAME PASSED TO FUNCTION WAS: " + name);
+            //console.log("RESULT OF INDEX_OF WAS: " + rmp_name.indexOf(name));
             if( rmp_name.indexOf(name) > -1 ) {
+                console.log( "URL IS: " + lis[i].getElementsByTagName('a')[0].getAttribute('href') );
                 return lis[i].getElementsByTagName('a')[0].getAttribute('href');
             }
         }
@@ -53,17 +54,18 @@ function getRating(url, name) {
         url: 'http://www.ratemyprofessors.com',
         data: url
     }, function(response) {
-        var ratings = document.createElement( 'html' );
-        ratings.innerHTML = response;
-        ratings = ratings.getElementsByTagName('div');
-        //ratings = ratings.getElementsByClassName('rating');
-        console.log(ratings);
+        var rating = $(response).find('div.grade').first().text();
+        console.log(rating);
     });
 }
 
 getNames();
 console.log(names);
 
-for( var i = 0; i < names.length; i++){
-    getRating(getURL(name), name);
-}
+
+var url = getURL(names[0]);
+
+console.log(url);
+
+
+getRating(url, names[0]);
