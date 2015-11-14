@@ -1,14 +1,15 @@
-function getNames(){
-    var tds = document.getElementsByTagName('td');
+(function getNames(){
+    var tds = document.querySelectorAll('td');
     var names = [];
+    // Professor's name is in the 6th position of the table
     for (var i=5; i<tds.length; i+= 10) {
-        var name = tds[i].getElementsByTagName('a')[0].innerHTML;
+        var name = tds[i].querySelector('a').textContent;
         if( names.indexOf(name) == -1) {
             names.push(name);
             getURL(name);
         }
     }
-}
+})();
 
 /**
  *  Performs a search on ratemyprofessor to get the professor's URL
@@ -22,22 +23,21 @@ function getURL(name) {
         url: 'http://www.ratemyprofessors.com/search.jsp',
         data : 'queryBy=teacherName&schoolName=adelphi+university&queryoption=HEADER&query=' + last_name + '&facetSearch=true'
     }, function(response){
-        //console.log(response);
+
         var lis = document.createElement( 'html' );
         lis.innerHTML = response;
 
-        lis = lis.getElementsByClassName('listing PROFESSOR');
-        //console.log(lis);
+        lis = lis.querySelectorAll('.listing.PROFESSOR');
 
         for( var i = 0; i < lis.length; i++){
-            var rmp_name = lis[i].getElementsByClassName('main')[0].innerText.toUpperCase();
-            //console.log("RMP NAME IS: " + rmp_name);
-            //console.log("NAME PASSED TO FUNCTION WAS: " + name);
-            //console.log("RESULT OF INDEX_OF WAS: " + rmp_name.indexOf(name));
+            var rmp_name = lis[i].querySelector('.main').textContent.toUpperCase();
             if( rmp_name.indexOf(name) > -1 ) {
-                getRating( name, lis[i].getElementsByTagName('a')[0].getAttribute('href') );
-            }else{
-                alert("there was an error loading the URL");
+                getRating( name, lis[i].querySelector('a').getAttribute('href') );
+                // We don't want to grab multiple ratings for the same name.
+                // Currently, if two people have the same name it will output both of their
+                // Ratings with no way to distinguish between them. This break is a temporary work-around
+                // until i can figure out a more elegant solution.
+                break; 
             }
         }
 
@@ -60,10 +60,13 @@ function getRating(name, professorUrl) {
             easiness: -1
         };
 
-        ratings.overall = $(response).find('div.grade').first().text();
-        ratings.helpfulness = $(response).find('div.rating:eq(0)').text();
-        ratings.clarity = $(response).find('div.rating:eq(1)').text();
-        ratings.easiness = $(response).find('div.rating:eq(2)').text();
+        var page = document.createElement( 'html' );
+        page.innerHTML = response;
+
+        ratings.overall = page.querySelector('.grade').textContent;
+        ratings.helpfulness = page.querySelectorAll('.rating')[0].textContent;
+        ratings.clarity = page.querySelectorAll('.rating')[1].textContent;
+        ratings.easiness = page.querySelectorAll('.rating')[2].textContent;
 
         appendRating(name, ratings);
 
@@ -76,19 +79,15 @@ function getRating(name, professorUrl) {
  */
 function appendRating(name, professorRatings){
 
+    // If I get rid of this jquery I can drop the dependency
     $(document).find('tr').each(function() {
-
         var professorCell = $(this).find('td').eq(5).text();
         if(professorCell.indexOf(name) > -1){
             $(this).find('td').eq(5).append(
-                '<br/>Overall: '+ professorRatings.overall +
-                    '\nHelpfulness: '+ professorRatings.helpfulness +
-                    '\nClarity: '+ professorRatings.clarity +
-                    '\nEasiness: '+ professorRatings.easiness);
-        } else{
-            console.log(professorCell.indexOf(name));
+                '<td>Overall: '+ professorRatings.overall +
+                    '<br/>Helpfulness: '+ professorRatings.helpfulness +
+                    '<br/>Clarity: '+ professorRatings.clarity +
+                    '<br\>Easiness: '+ professorRatings.easiness + '</td>');
         }
     });
 }
-
-getNames();
