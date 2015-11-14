@@ -84,7 +84,7 @@ function appendRating(name, professorRatings, professorUrl){
         var professorCell = $(this).find('td').eq(5).text();
         if(professorCell.indexOf(name) > -1){
             $(this).find('td').eq(5).append(
-                '<br/><br/><a href ="http://www.ratemyprofessors.com' + professorUrl + '">Rate My Professor</a>' +
+                '<br/><br/><a href ="http://www.ratemyprofessors.com' + professorUrl + '" target="_blank">Rate My Professor</a>' +
                     '<br/>Overall: '+ professorRatings.overall +
                     '<br/>Helpfulness: '+ professorRatings.helpfulness +
                     '<br/>Clarity: '+ professorRatings.clarity +
