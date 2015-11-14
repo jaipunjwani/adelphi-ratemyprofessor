@@ -68,7 +68,7 @@ function getRating(name, professorUrl) {
         ratings.clarity = page.querySelectorAll('.rating')[1].textContent;
         ratings.easiness = page.querySelectorAll('.rating')[2].textContent;
 
-        appendRating(name, ratings);
+        appendRating(name, ratings, professorUrl);
 
     });
 }
@@ -77,17 +77,18 @@ function getRating(name, professorUrl) {
  * Append Ratings to CLASS System
  *
  */
-function appendRating(name, professorRatings){
+function appendRating(name, professorRatings, professorUrl){
 
     // If I get rid of this jquery I can drop the dependency
     $(document).find('tr').each(function() {
         var professorCell = $(this).find('td').eq(5).text();
         if(professorCell.indexOf(name) > -1){
             $(this).find('td').eq(5).append(
-                '<td>Overall: '+ professorRatings.overall +
+                '<br/><br/><a href ="http://www.ratemyprofessors.com' + professorUrl + '">Rate My Professor</a>' +
+                    '<br/>Overall: '+ professorRatings.overall +
                     '<br/>Helpfulness: '+ professorRatings.helpfulness +
                     '<br/>Clarity: '+ professorRatings.clarity +
-                    '<br\>Easiness: '+ professorRatings.easiness + '</td>');
+                    '<br\>Easiness: '+ professorRatings.easiness);
         }
     });
 }
