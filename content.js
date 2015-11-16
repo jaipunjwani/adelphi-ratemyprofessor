@@ -79,26 +79,27 @@ function getRating(name, professorUrl) {
  */
 function appendRating(name, professorRatings, professorUrl){
 
-    // If I get rid of this jquery I can drop the dependency
-    $(document).find('tr').each(function() {
-        var professorCell = $(this).find('td').eq(5).text();
-        if(professorCell.indexOf(name) > -1){
-            $(this).find('td').eq(5).append(
+
+    var table = document.querySelector('table');
+    for( var i = 0; i < table.rows.length; i++){
+        var professorCell = table.rows[i].cells[5];
+       if(professorCell.textContent.indexOf(name) > -1){
+           professorCell.insertAdjacentHTML('beforeend', 
                 '<br/><br/><a href ="http://www.ratemyprofessors.com' + professorUrl + '" target="_blank">Rate My Professor</a>' +
                     '<br/>Overall: '+ professorRatings.overall.fontcolor(colorize(professorRatings.overall)) +
                     '<br/>Helpfulness: '+ professorRatings.helpfulness.fontcolor(colorize(professorRatings.helpfulness)) +
                     '<br/>Clarity: '+ professorRatings.clarity.fontcolor(colorize(professorRatings.clarity)) +
-                    '<br\>Easiness: '+ professorRatings.easiness.fontcolor(colorize(professorRatings.easiness)));
-        }
-    });
+                   '<br/>Easiness: '+ professorRatings.easiness.fontcolor(colorize(professorRatings.easiness)));
+       }
+    }
 }
 
 /* Given an integer rating, return the appropriate color 
  * 1 <= rating < 2 : Red
  * 2 <= rating < 3 : Orange
  * 3 <= rating < 4 : Yellow
- * 4 <= rating < 5 : Green
- *
+ * 4 <= rating < 5 : light Green
+ * 5 : Dark green
  */
 function colorize(rating) {
     if( 1 <= rating && rating < 2){
