@@ -1,5 +1,5 @@
 {
-  "name": "Adelphi University RateMyProfessor",
+  "name": "Rate My Adelphi Professors",
   "version": "1.0",
   "manifest_version": 2,
   "description": "Gets information from ratemyprofessor and displays it next to a professor's name in CLASS.",
