@@ -1,9 +1,11 @@
 (function getNames(){
-    var tds = document.querySelectorAll('td');
+    var table = document.querySelector('table');
     var names = [];
-    // Professor's name is in the 6th position of the table
-    for (var i=5; i<tds.length; i+= 10) {
-        var name = tds[i].querySelector('a').textContent;
+    for (var i=0; i<table.rows.length; i++) {
+        if (table.rows[i].querySelector('th')){
+            continue;
+        }
+        var name = table.rows[i].cells[5].querySelector('a').innerHTML;
         if( names.indexOf(name) == -1) {
             names.push(name);
             getURL(name);
