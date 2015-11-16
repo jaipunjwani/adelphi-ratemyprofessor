@@ -85,10 +85,35 @@ function appendRating(name, professorRatings, professorUrl){
         if(professorCell.indexOf(name) > -1){
             $(this).find('td').eq(5).append(
                 '<br/><br/><a href ="http://www.ratemyprofessors.com' + professorUrl + '" target="_blank">Rate My Professor</a>' +
-                    '<br/>Overall: '+ professorRatings.overall +
-                    '<br/>Helpfulness: '+ professorRatings.helpfulness +
-                    '<br/>Clarity: '+ professorRatings.clarity +
-                    '<br\>Easiness: '+ professorRatings.easiness);
+                    '<br/>Overall: '+ professorRatings.overall.fontcolor(colorize(professorRatings.overall)) +
+                    '<br/>Helpfulness: '+ professorRatings.helpfulness.fontcolor(colorize(professorRatings.helpfulness)) +
+                    '<br/>Clarity: '+ professorRatings.clarity.fontcolor(colorize(professorRatings.clarity)) +
+                    '<br\>Easiness: '+ professorRatings.easiness.fontcolor(colorize(professorRatings.easiness)));
         }
     });
+}
+
+/* Given an integer rating, return the appropriate color 
+ * 1 <= rating < 2 : Red
+ * 2 <= rating < 3 : Orange
+ * 3 <= rating < 4 : Yellow
+ * 4 <= rating < 5 : Green
+ *
+ */
+function colorize(rating) {
+    if( 1 <= rating && rating < 2){
+        return "#FF4136";
+    }
+    else if( 2 <= rating && rating < 3){
+        return "#FF851B";
+    }
+    else if( 3 <= rating && rating < 4){
+        return "#FFDC00";
+    }
+    else if( 4 <= rating && rating < 5){
+        return "#2ECC40";
+    }
+    else {
+        return "green";
+    }
 }
