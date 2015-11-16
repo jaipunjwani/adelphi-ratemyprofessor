@@ -5,6 +5,7 @@
         if (table.rows[i].querySelector('th')){
             continue;
         }
+        // Cell 5 is where CLASS keeps the professor's name.  
         var name = table.rows[i].cells[5].querySelector('a').innerHTML;
         if( names.indexOf(name) == -1) {
             names.push(name);
@@ -84,6 +85,7 @@ function appendRating(name, professorRatings, professorUrl){
 
     var table = document.querySelector('table');
     for( var i = 0; i < table.rows.length; i++){
+        // Cell 5 Contains the professor's name
         var professorCell = table.rows[i].cells[5];
        if(professorCell.textContent.indexOf(name) > -1){
            professorCell.insertAdjacentHTML('beforeend', 
