@@ -1,14 +1,20 @@
 (function getNames(){
-    var table = document.querySelector('table');
+    var table = document.querySelectorAll('td');
     var names = [];
-    for (var i=0; i<table.rows.length; i++) {
-        if (table.rows[i].querySelector('th')){
-            continue;
+    var professorCells = [];
+    for (var i=0; i<table.length; i++) {
+
+        // Populate array of table cells with Professor names in them
+        var links = table[i].querySelectorAll('a');
+        for( var j = 0; j < links.length; j++){
+            if( links[j] && links[j].href.match(/.*adelphi\.edu\/faculty\/profiles.*/)){
+                professorCells.push(links[j]);
+            }
         }
 
-        // Cell 5 is where CLASS keeps the professor's name.  
-        if (table.rows[i].cells[5] && table.rows[i].cells[5].querySelector('a')){
-            var name = table.rows[i].cells[5].querySelector('a').innerHTML;
+        // Grab the names from the previously populated professorCells array
+        for( var k = 0; k < professorCells.length; k++){
+            var name = professorCells[k].innerHTML;
             if( names.indexOf(name) == -1) {
                 names.push(name);
                 getURL(name);
@@ -85,18 +91,36 @@ function getRating(name, professorUrl) {
  */
 function appendRating(name, professorRatings, professorUrl){
 
+    var table = document.querySelectorAll('td');
+    var professorCells = [];
+    for( var i = 0; i < table.length; i++){
+        // Populate array of table cells with Professor names in them
+        var links = table[i].querySelectorAll('a');
+        for( var j = 0; j < links.length; j++){
+            if( links[j] && links[j].href.match(/.*adelphi\.edu\/faculty\/profiles.*/)){
+                if( professorCells.indexOf(links[j]) == -1){
+                    professorCells.push(links[j]);
+                }
+            }
+        }
 
-    var table = document.querySelector('table');
-    for( var i = 0; i < table.rows.length; i++){
-        // Cell 5 Contains the professor's name
-        var professorCell = table.rows[i].cells[5];
-        if(professorCell.textContent.indexOf(name) > -1){
-            professorCell.insertAdjacentHTML('beforeend', 
-                                             '<br/><br/><a href ="http://www.ratemyprofessors.com' + professorUrl + '" target="_blank">Rate My Professor</a>' +
-                                             '<br/>Overall: '+ professorRatings.overall.fontcolor(colorize(professorRatings.overall)) +
-                                             '<br/>Helpfulness: '+ professorRatings.helpfulness.fontcolor(colorize(professorRatings.helpfulness)) +
-                                             '<br/>Clarity: '+ professorRatings.clarity.fontcolor(colorize(professorRatings.clarity)) +
-                                             '<br/>Easiness: '+ professorRatings.easiness.fontcolor(colorize(professorRatings.easiness)));
+    }
+
+    for( var k = 0; k < professorCells.length; k++){
+        var nameInCell = professorCells[k].innerHTML;
+        if( nameInCell.indexOf(name) > -1) {
+
+            professorCells[k].insertAdjacentHTML('afterend', 
+                                                 '<br/><br/><a href ="http://www.ratemyprofessors.com' +
+                                                 professorUrl + '" target="_blank">Rate My Professor</a>' +
+                                                 '<br/>Overall: ' +
+                                                 professorRatings.overall.fontcolor(colorize(professorRatings.overall)) +
+                                                 '<br/>Helpfulness: ' +
+                                                 professorRatings.helpfulness.fontcolor(colorize(professorRatings.helpfulness)) +
+                                                 '<br/>Clarity: '+
+                                                 professorRatings.clarity.fontcolor(colorize(professorRatings.clarity)) +
+                                                 '<br/>Easiness: '+
+                                                 professorRatings.easiness.fontcolor(colorize(professorRatings.easiness)));
         }
     }
 }
