@@ -5,11 +5,14 @@
         if (table.rows[i].querySelector('th')){
             continue;
         }
+
         // Cell 5 is where CLASS keeps the professor's name.  
-        var name = table.rows[i].cells[5].querySelector('a').innerHTML;
-        if( names.indexOf(name) == -1) {
-            names.push(name);
-            getURL(name);
+        if (table.rows[i].cells[5].querySelector('a')){
+            var name = table.rows[i].cells[5].querySelector('a').innerHTML;
+            if( names.indexOf(name) == -1) {
+                names.push(name);
+                getURL(name);
+            }
         }
     }
 })();
@@ -87,14 +90,14 @@ function appendRating(name, professorRatings, professorUrl){
     for( var i = 0; i < table.rows.length; i++){
         // Cell 5 Contains the professor's name
         var professorCell = table.rows[i].cells[5];
-       if(professorCell.textContent.indexOf(name) > -1){
-           professorCell.insertAdjacentHTML('beforeend', 
-                '<br/><br/><a href ="http://www.ratemyprofessors.com' + professorUrl + '" target="_blank">Rate My Professor</a>' +
-                    '<br/>Overall: '+ professorRatings.overall.fontcolor(colorize(professorRatings.overall)) +
-                    '<br/>Helpfulness: '+ professorRatings.helpfulness.fontcolor(colorize(professorRatings.helpfulness)) +
-                    '<br/>Clarity: '+ professorRatings.clarity.fontcolor(colorize(professorRatings.clarity)) +
-                   '<br/>Easiness: '+ professorRatings.easiness.fontcolor(colorize(professorRatings.easiness)));
-       }
+        if(professorCell.textContent.indexOf(name) > -1){
+            professorCell.insertAdjacentHTML('beforeend', 
+                                             '<br/><br/><a href ="http://www.ratemyprofessors.com' + professorUrl + '" target="_blank">Rate My Professor</a>' +
+                                             '<br/>Overall: '+ professorRatings.overall.fontcolor(colorize(professorRatings.overall)) +
+                                             '<br/>Helpfulness: '+ professorRatings.helpfulness.fontcolor(colorize(professorRatings.helpfulness)) +
+                                             '<br/>Clarity: '+ professorRatings.clarity.fontcolor(colorize(professorRatings.clarity)) +
+                                             '<br/>Easiness: '+ professorRatings.easiness.fontcolor(colorize(professorRatings.easiness)));
+        }
     }
 }
 
