@@ -7,7 +7,7 @@
         }
 
         // Cell 5 is where CLASS keeps the professor's name.  
-        if (table.rows[i].cells[5].querySelector('a')){
+        if (table.rows[i].cells[5] && table.rows[i].cells[5].querySelector('a')){
             var name = table.rows[i].cells[5].querySelector('a').innerHTML;
             if( names.indexOf(name) == -1) {
                 names.push(name);
