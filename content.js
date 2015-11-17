@@ -15,12 +15,14 @@
         // Grab the names from the previously populated professorCells array
         for( var k = 0; k < professorCells.length; k++){
             var name = professorCells[k].innerHTML;
+            name = cleanName(name);
             if( names.indexOf(name) == -1) {
                 names.push(name);
                 getURL(name);
             }
         }
     }
+    console.log(names);
 })();
 
 /**
@@ -28,12 +30,12 @@
  *  
  */
 function getURL(name) {
-    var last_name = name.replace(/,.*/, "");
+    var lastName = getLastName(name);
     chrome.runtime.sendMessage({
         method: 'POST',
         action: 'xhttp',
         url: 'http://www.ratemyprofessors.com/search.jsp',
-        data : 'queryBy=teacherName&schoolName=adelphi+university&queryoption=HEADER&query=' + last_name + '&facetSearch=true'
+        data : 'queryBy=teacherName&schoolName=adelphi+university&queryoption=HEADER&query=' + lastName + '&facetSearch=true'
     }, function(response){
 
         var lis = document.createElement( 'html' );
@@ -42,8 +44,8 @@ function getURL(name) {
         lis = lis.querySelectorAll('.listing.PROFESSOR');
 
         for( var i = 0; i < lis.length; i++){
-            var rmp_name = lis[i].querySelector('.main').textContent.toUpperCase();
-            if( rmp_name.indexOf(name) > -1 ) {
+            var rmpName = lis[i].querySelector('.main').textContent.toUpperCase();
+            if( rmpName.indexOf(name) > -1 ) {
                 getRating( name, lis[i].querySelector('a').getAttribute('href') );
                 // We don't want to grab multiple ratings for the same name.
                 // Currently, if two people have the same name it will output both of their
@@ -108,7 +110,8 @@ function appendRating(name, professorRatings, professorUrl){
 
     for( var k = 0; k < professorCells.length; k++){
         var nameInCell = professorCells[k].innerHTML;
-        if( nameInCell.indexOf(name) > -1) {
+        var lastName = getLastName(name);
+        if( cleanName(nameInCell) === name ) {
 
             professorCells[k].insertAdjacentHTML('afterend', 
                                                  '<br/><br/><a href ="http://www.ratemyprofessors.com' +
@@ -148,4 +151,19 @@ function colorize(rating) {
     else {
         return "green";
     }
+}
+
+
+/* Return the last name of a professor
+ */
+function getLastName(name){
+    return name.replace(/,.*/, "");
+}
+
+/* Gets rid of any suffixes or other issues in names that I encounter.
+ *
+ */
+function cleanName(name){
+    return name.replace(/ JR[\.]?/, "")
+        .replace(/,,+/, ",");
 }
