@@ -6,4 +6,4 @@ Download from the [Chrome Webstore!](https://chrome.google.com/webstore/detail/r
 
 Now, you should be able to navigate to the adelphi CLASS course search system and see something like this!
 
-![Imgur](http://i.imgur.com/xWUeGj8.png?1)
+![Imgur](http://i.imgur.com/rq1LqH5.png)
