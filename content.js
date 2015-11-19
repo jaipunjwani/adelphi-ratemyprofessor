@@ -121,14 +121,19 @@ function appendRating(name, professorRatings, professorUrl) {
       professorCells[k].insertAdjacentHTML('afterend', 
                                            '<br/><br/><a href ="http://www.ratemyprofessors.com' +
                                            professorUrl + '" target="_blank">Rate My Professor</a>' +
-                                           '<br/>Overall: ' +
+                                           '<br/>Overall: <strong>' +
                                            professorRatings.overall.fontcolor(colorize(professorRatings.overall)) +
-                                           '<br/>Helpfulness: ' +
+                                           '</strong>' + 
+                                           '<br/>Helpfulness: <strong>' +
                                            professorRatings.helpfulness.fontcolor(colorize(professorRatings.helpfulness)) +
-                                           '<br/>Clarity: '+
+                                           '</strong>' +
+                                           '<br/>Clarity: <strong>' +
                                            professorRatings.clarity.fontcolor(colorize(professorRatings.clarity)) +
-                                           '<br/>Easiness: '+
-                                           professorRatings.easiness.fontcolor(colorize(professorRatings.easiness)));
+                                           '</strong>' +
+                                           '<br/>Easiness: <strong>' +
+                                           professorRatings.easiness.fontcolor(colorize(professorRatings.easiness)) +
+                                           '</strong>'
+                                          );
     }
   }
 }
