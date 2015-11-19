@@ -7,27 +7,24 @@
   var names = [];
   var professorCells = [];
 
-  for (var i=0; i<table.length; i++) {
+  for (var i=0, tableLen = table.length; i < tableLen; i++) {
     // Populate array of table cells with Professor names in them
     var links = table[i].querySelectorAll('a');
-    for (var j = 0; j < links.length; j++) {
+    for (var j = 0, linksLen = links.length; j < linksLen; j++) {
       if (links[j] && links[j].href.match(/.*adelphi\.edu\/faculty\/profiles.*/)) {
         professorCells.push(links[j]);
       }
     }
 
     // Grab the names from the previously populated professorCells array
-    for (var k = 0; k < professorCells.length; k++) {
-      var name = professorCells[k].innerHTML;
-      name = cleanName(name);
-      if (names.indexOf(name) == -1) {
+    for (var k = 0, professorCellsLen = professorCells.length; k < professorCellsLen; k++) {
+      var name = cleanName(professorCells[k].innerHTML);
+      if (names.indexOf(name) === -1) {
         names.push(name);
         getURL(name);
       }
     }
   }
-
-  console.log(names);
 })();
 
 /**
@@ -48,7 +45,7 @@ function getURL(name) {
 
     lis = lis.querySelectorAll('.listing.PROFESSOR');
 
-    for (var i = 0; i < lis.length; i++) {
+    for (var i = 0, lisLen = lis.length; i < lisLen; i++) {
       var rmpName = lis[i].querySelector('.main').textContent.toUpperCase();
       if (rmpName.indexOf(name) > -1 ) {
         getRating(name, lis[i].querySelector('a').getAttribute('href') );
@@ -102,13 +99,13 @@ function appendRating(name, professorRatings, professorUrl) {
 
   var table = document.querySelectorAll('td');
   var professorCells = [];
-  for (var i = 0; i < table.length; i++) {
+  for (var i = 0, tableLen = table.length; i < tableLen; i++) {
     // Populate array of table cells with Professor names in them
     var links = table[i].querySelectorAll('a');
 
-    for (var j = 0; j < links.length; j++) {
+    for (var j = 0, linksLen = links.length; j < linksLen; j++) {
       if (links[j] && links[j].href.match(/.*adelphi\.edu\/faculty\/profiles.*/)) {
-        if (professorCells.indexOf(links[j]) == -1) {
+        if (professorCells.indexOf(links[j]) === -1) {
           professorCells.push(links[j]);
         }
       }
@@ -116,7 +113,7 @@ function appendRating(name, professorRatings, professorUrl) {
 
   }
 
-  for (var k = 0; k < professorCells.length; k++) {
+  for (var k = 0, professorCellsLen = professorCells.length; k < professorCellsLen; k++) {
     var nameInCell = professorCells[k].innerHTML;
     var lastName = getLastName(name);
     if (cleanName(nameInCell) === name ) {
@@ -150,13 +147,15 @@ function colorize(rating) {
 /* Return the last name of a professor
  */
 function getLastName(name) {
-  return name.replace(/,.*/, '');
+  return name
+    .replace(/,.*/, '');
 }
 
 /* Gets rid of any suffixes or other issues in names that I encounter.
  *
  */
 function cleanName(name) {
-  return name.replace(/ JR[\.]?/, '')
+  return name
+    .replace(/ JR[\.]?/, '')
     .replace(/,,+/, ',');
 }
