@@ -148,6 +148,22 @@ function colorize(rating) {
   else return '#009900'; // Dark Green
 }
 
+/* Get the department number from CLASS
+ * Returns a string containing the department name
+ */
+function getDepartmentNum(){
+  var table = document.querySelectorAll('td');
+  
+  for (var i=0, tableLen = table.length; i < tableLen; i++) {
+    var links = table[i].querySelectorAll('a');
+    for (var j = 0, linksLen = links.length; j < linksLen; j++) {
+      if (links[j] && links[j].textContent.match(/[0-9]{4}-[0-9]{3}-[0-9]{3}/)) {
+        return links[j].textContent.substring(0,4);
+      }
+    }
+  }
+}
+
 
 /* Return the last name of a professor
  */
@@ -164,3 +180,6 @@ function cleanName(name) {
     .replace(/ JR[\.]?/, '')
     .replace(/,,+/, ',');
 }
+
+
+console.log(getDepartmentNum());
