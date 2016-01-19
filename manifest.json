@@ -1,6 +1,6 @@
 {
   "name": "Rate My Adelphi Professors",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "manifest_version": 2,
   "description": "Gets information from ratemyprofessor.com and displays it next to a professor's name in CLASS.",
   "icons": { "48": "icon48.png",
@@ -9,10 +9,10 @@
     "persistent": false,
     "scripts": ["event.js"]
   },
-  "permissions": ["*://*.ratemyprofessors.com/*", "*://class.adelphi.edu/*"],
+  "permissions": ["*://*.ratemyprofessors.com/*", "*://class.adelphi.edu/cgi-bin/web.asp"], 
   "content_scripts": [
     {
-      "matches": ["*://class.adelphi.edu/*"],
+      "matches": ["*://class.adelphi.edu/cgi-bin/web.asp"],
       "js": ["content.js"]
     }
   ]
