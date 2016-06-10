@@ -73,18 +73,17 @@ function getRating(name, professorUrl) {
 
     var ratings = {
       overall: -1,
-      helpfulness: -1,
-      clarity: -1,
-      easiness: -1
+      recommended: "",
+      difficulty: -1
     };
 
     var page = document.createElement('html' );
     page.innerHTML = response;
 
-    ratings.overall = page.querySelector('.grade').textContent;
-    ratings.helpfulness = page.querySelectorAll('.rating')[0].textContent;
-    ratings.clarity = page.querySelectorAll('.rating')[1].textContent;
-    ratings.easiness = page.querySelectorAll('.rating')[2].textContent;
+    grades = page.querySelectorAll('.grade');
+    ratings.overall = grades[0].textContent;
+    ratings.recommended = grades[1].textContent;
+    ratings.difficulty = grades[2].textContent;
 
     appendRating(name, ratings, professorUrl);
 
@@ -124,14 +123,11 @@ function appendRating(name, professorRatings, professorUrl) {
                                            '<br/>Overall: <strong>' +
                                            professorRatings.overall.fontcolor(colorize(professorRatings.overall)) +
                                            '</strong>' + 
-                                           '<br/>Helpfulness: <strong>' +
-                                           professorRatings.helpfulness.fontcolor(colorize(professorRatings.helpfulness)) +
-                                           '</strong>' +
-                                           '<br/>Clarity: <strong>' +
-                                           professorRatings.clarity.fontcolor(colorize(professorRatings.clarity)) +
-                                           '</strong>' +
-                                           '<br/>Easiness: <strong>' +
-                                           professorRatings.easiness.fontcolor(colorize(professorRatings.easiness)) +
+                                           '<br/>Recommended: <strong>' +
+                                           professorRatings.recommended +
+                                           '</strong>' + 
+                                           '<br/>Difficulty: <strong>' +
+                                           professorRatings.difficulty.fontcolor(colorize(professorRatings.difficulty)) +
                                            '</strong>'
                                           );
     }
@@ -162,6 +158,12 @@ function getDepartmentNum(){
       }
     }
   }
+}
+
+/* Return department name given department number
+ */
+function getDepartmentName(deptNum){
+  var departments = {};
 }
 
 
